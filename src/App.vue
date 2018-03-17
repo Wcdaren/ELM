@@ -1,10 +1,8 @@
 <template>
   <div>
-
     <div class="header">
-    <v-header :seller="seller"></v-header>
+      <v-header :seller="seller"></v-header>
     </div>
-    
     <div class="tab">
       <div class="tab-item">
         <router-link to="/goods" id="tab-item-sub">商品</router-link>
@@ -15,14 +13,9 @@
       <div class="tab-item">
         <router-link to="/seller" id="tab-item-sub">商家</router-link>
       </div>
-
     </div>
-
-    <div class="content">
-    </div>
-
+    <div class="content"></div>
     <router-view/>
-
   </div>
 </template>
 
@@ -46,9 +39,7 @@ export default {
         response = response.body;
 
         if (response.errno === ERR_OK) {
-          this.seller = response.data;
-          console.log(this.seller.bulletin);
-          
+          this.seller = response.data;          
         }
       },
       response => {
