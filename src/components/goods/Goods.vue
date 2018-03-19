@@ -1,17 +1,17 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper" v-el:menu-wrapper>
+    <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li v-for="item in goods" class="menu-item">
+        <li v-for="item in goods" class="menu-item" >
           <span class="text border-1px">
             <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
           </span>
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper" v-el:foods-wrapper>
+    <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li v-for="item in goods" class="food">
+        <li v-for="item in goods" class="food" ref="foosList">
           <h1 class="title">{{item.name}}</h1>
           <ul>
             <li v-for="food in item.foods" class="food-item border-1px">
@@ -22,12 +22,10 @@
                 <h2 class="name">{{food.name}}</h2>
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
-                  <span class="count">月售{{food.sellCount}}份</span>
-                  <span>好评率{{food.rating}}%</span>
+                  <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
-                  <span class="now">{{food.price}} RMB</span>
-                  <span v-show="food.oldPrice" class="old">{{food.oldPrice}}</span>
+                  <span class="now">￥{{food.price}}</span><span v-show="food.oldPrice" class="old">{{food.oldPrice}}</span>
                 </div>
               </div>
             </li>
@@ -62,8 +60,11 @@ export default {
 
         if (response.errno === ERR_OK) {
           this.goods = response.data;
-          console.log(this.goods);
-                    
+          // this.$nextTick(() => {
+          //   this._initScroll()
+          // })
+          this._initScroll()
+
         }
       },
       response => {
@@ -75,9 +76,13 @@ export default {
   },
   methods: {
     _initScroll(){
-      this.meunScroll = new BScroll(this.$els.MenuWrapper, {})
+      this.meunScroll = new BScroll(this.$refs.menuWrapper, {
 
-      this.foodsScroll = new BScroll(this.$els.FoodsWrapper, {})
+      })
+
+      this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+        
+      })
     }
   }
 }
@@ -162,9 +167,10 @@ export default {
           font-size 10px
           color rgb(147,153,159)
         .desc
+          line-height 12px
           margin-bottom 8px
         .extra
-          &.count
+          .count
             margin-right 12px
         .price
           font-weight 700px
